@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="按出版方、日期和关键词浏览近期学术论文。">
+  <title>文献索引 · acsearch</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap topbar">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>acsearch</a>
+      <h1>文献索引</h1>
+      <span id="updated">正在读取更新状态</span>
+    </div>
+  </header>
+  <main class="wrap">
+    <form id="filters" class="filters" role="search">
+      <label class="keywords">关键词<input id="query" type="search" placeholder="搜索当天的标题、作者或 DOI"></label>
+      <label>出版方<select id="journal-group" disabled><option value="">全部出版方</option></select></label>
+      <label>日期口径<select id="date-mode">
+        <option value="indexedDate">新收录</option>
+        <option value="date">发表日</option>
+      </select></label>
+      <div class="exact-date">
+        <label id="date-label" for="open-calendar">查看日期</label>
+        <div class="date-controls">
+          <button id="open-calendar" class="calendar-trigger" type="button" aria-haspopup="dialog" aria-controls="publication-calendar" aria-expanded="false" aria-labelledby="date-label date-value" disabled>
+            <span id="date-value">选择日期</span>
+            <span class="calendar-icon" aria-hidden="true"></span>
+          </button>
+          <button id="clear-date" type="button" hidden>回最新</button>
+        </div>
+      </div>
+    </form>
+    <div class="reader">
+      <section class="listing" aria-labelledby="results-heading">
+        <div class="panel-header">
+          <h2 id="results-heading">近期论文</h2>
+          <p id="status" role="status">正在加载文献…</p>
+        </div>
+        <div id="results"></div>
+        <button id="more" class="more" type="button" hidden>加载更多</button>
+      </section>
+      <aside id="paper" class="details" aria-labelledby="detail-heading">
+        <div class="panel-header">
+          <h2 id="detail-heading">论文详情</h2>
+          <div class="paper-nav" id="paper-nav" hidden>
+            <button id="previous" type="button">上一篇</button>
+            <button id="next" type="button">下一篇</button>
+          </div>
+        </div>
+        <p class="detail-empty" id="detail-empty">选择一篇论文查看详情。</p>
+        <div class="detail-body" id="detail-body" hidden>
+          <div class="paper-context"><span id="paper-journal" class="journal"></span><span id="paper-type"></span></div>
+          <h3 id="paper-title" tabindex="-1" lang="en"></h3>
+          <dl class="metadata">
+            <dt>第一作者</dt><dd id="paper-authors"></dd>
+            <dt>发表日</dt><dd id="paper-date"></dd>
+            <dt>收录日</dt><dd id="paper-indexed"></dd>
+            <dt>DOI</dt><dd id="paper-doi"></dd>
+          </dl>
+          <section class="journal-metrics" aria-labelledby="journal-metrics-heading">
+            <h4 id="journal-metrics-heading">期刊指标 · easyScholar</h4>
+            <ul id="journal-metric-tags" class="metric-tags" hidden></ul>
+            <p id="journal-metric-status" role="status">连接 easyScholar 后自动查询当前期刊。</p>
+            <details id="easy-scholar-settings" class="metric-settings">
+              <summary>连接 easyScholar</summary>
+              <form id="easy-scholar-form" autocomplete="off">
+                <label for="easy-scholar-key">开放接口密钥</label>
+                <div class="metric-connect">
+                  <input id="easy-scholar-key" type="password" required autocomplete="off">
+                  <button type="submit">连接</button>
+                </div>
+                <p>密钥仅保留在当前页面。<a href="https://www.easyscholar.cc/console/query" target="_blank" rel="noopener">easyScholar 官方控制台</a></p>
+              </form>
+            </details>
+            <button id="easy-scholar-disconnect" class="metric-disconnect" type="button" hidden>断开 easyScholar</button>
+          </section>
+          <a id="paper-link" class="primary" target="_blank" rel="noopener">查看原文</a>
+          <button id="back-to-list" type="button">返回列表</button>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <footer class="wrap footer">数据来源 <a href="https://www.crossref.org/">Crossref</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/">PubMed</a></footer>
+  <dialog id="publication-calendar" class="calendar" aria-labelledby="calendar-title">
+    <div class="calendar-header">
+      <h2 id="calendar-title">查看日期</h2>
+      <button id="close-calendar" type="button" aria-label="关闭日历">×</button>
+    </div>
+    <div class="calendar-content">
+      <div class="calendar-month">
+        <button id="calendar-previous" type="button" aria-label="上个月">‹</button>
+        <p id="calendar-month-label" aria-live="polite"></p>
+        <button id="calendar-next" type="button" aria-label="下个月">›</button>
+      </div>
+      <div class="calendar-weekdays" aria-hidden="true">
+        <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+      </div>
+      <div id="calendar-days" class="calendar-days" role="group" aria-labelledby="calendar-month-label"></div>
+      <div class="calendar-footer">
+        <button id="calendar-clear" type="button">回到最新日期</button>
+        <button id="calendar-today" type="button">今天</button>
+      </div>
+    </div>
+    <button id="resize-calendar" class="calendar-resize" type="button" aria-label="调整日历大小" aria-description="拖动或使用方向键调整宽度和高度"></button>
+  </dialog>
+</body>
+</html>
