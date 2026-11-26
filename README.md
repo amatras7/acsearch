@@ -15,7 +15,7 @@ python -m http.server 8765 --directory site
 
 ## GitHub Pages
 
-将项目推送到 GitHub 仓库的 `main`，在 **Settings → Pages → Source** 选择 **GitHub Actions**，再从 **Actions → Update and publish literature** 手动运行一次。工作流默认每天北京时间 08:17、20:17 触发，刷新快照并发布 `site/`。可在仓库变量中配置 `CROSSREF_EMAIL`。
+将项目推送到 GitHub 仓库的 `main`，在 **Settings → Pages → Source** 选择 **GitHub Actions**，再从 **Actions → Update and publish literature** 手动运行一次。工作流默认每小时（UTC 每小时 17 分）重新抓取并发布 `site/`；抓到的数据不写回仓库，仓库体积基本不变。每月会自动提交一个心跳文件，避免 GitHub 在 60 天无活动后停掉定时任务。可在仓库变量中配置 `CROSSREF_EMAIL`。
 
 单刊请求失败时保留该刊在窗口内的上一次数据，并在页面显示来源未更新。所有期刊失败时保留现有发布。
 
